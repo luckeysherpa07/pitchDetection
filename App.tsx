@@ -22,6 +22,27 @@ const App = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.noteContainer}>
+        <Text>A</Text>
+      </View>
+      <View style={styles.noteContainer}>
+        <Text>B</Text>
+      </View>
+      <View style={styles.noteContainer}>
+        <Text>C</Text>
+      </View>
+      <View style={styles.noteContainer}>
+        <Text>D</Text>
+      </View>
+      <View style={styles.noteContainer}>
+        <Text>E</Text>
+      </View>
+      <View style={styles.noteContainer}>
+        <Text>F</Text>
+      </View>
+      <View style={styles.noteContainer}>
+        <Text>G</Text>
+      </View>
       <Text style={styles.pitchText}>Pitch:</Text>
       <Text style={styles.pitchText}>{pitch}</Text>
       <Button onPress={() => onPressStartButton()} title="Start" />
@@ -38,6 +59,11 @@ const styles = StyleSheet.create({
   },
   pitchText: {
     fontSize: 24,
+  },
+  noteContainer: {
+    backgroundColor: '#ADD8E6',
+    padding: 10,
+    margin: 10,
   },
 });
 
