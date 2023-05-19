@@ -4,6 +4,7 @@ import {PitchDetector} from 'react-native-pitch-detector';
 
 const App = () => {
   const [pitch, setPitch] = useState('');
+  const [songNotes, setSongNotes] = useState('ABCDEFG');
 
   const subscription = PitchDetector;
 
@@ -11,8 +12,15 @@ const App = () => {
     // To start recording
     await subscription.start();
 
-    PitchDetector.addListener(({tone}) => {
+    PitchDetector.addListener(({tone}: any) => {
       setPitch(tone);
+      var firstLetter = songNotes.substring(0, 1);
+      console.log('THIS IS FIRST LETTER', firstLetter);
+      if (tone == firstLetter) {
+        var remainingNotes = songNotes.substring(1);
+        console.log('Remaining Notes', remainingNotes);
+        setSongNotes(remainingNotes);
+      }
     });
   };
 
@@ -20,29 +28,38 @@ const App = () => {
     subscription.stop();
   };
 
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const Note = ({note}: any) => {
+    return (
+      <View
+        style={[
+          styles.noteContainer,
+          { backgroundColor: pitch == note ? 'red' : '#ADD8E6' },
+        ]}>
+        <Text>{note}</Text>
+      </View>
+    );
+  };
+
+  // eslint-disable-next-line react/no-unstable-nested-components
+  const SongNotes = () => {
+    return (
+      <View>
+        <Text>{songNotes}</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.noteContainer}>
-        <Text>A</Text>
-      </View>
-      <View style={styles.noteContainer}>
-        <Text>B</Text>
-      </View>
-      <View style={styles.noteContainer}>
-        <Text>C</Text>
-      </View>
-      <View style={styles.noteContainer}>
-        <Text>D</Text>
-      </View>
-      <View style={styles.noteContainer}>
-        <Text>E</Text>
-      </View>
-      <View style={styles.noteContainer}>
-        <Text>F</Text>
-      </View>
-      <View style={styles.noteContainer}>
-        <Text>G</Text>
-      </View>
+      <Note note="A" />
+      <Note note="B" />
+      <Note note="C" />
+      <Note note="D" />
+      <Note note="E" />
+      <Note note="F" />
+      <Note note="G" />
+      <SongNotes />
       <Text style={styles.pitchText}>Pitch:</Text>
       <Text style={styles.pitchText}>{pitch}</Text>
       <Button onPress={() => onPressStartButton()} title="Start" />
