@@ -1,10 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Button} from 'react-native';
 import {PitchDetector} from 'react-native-pitch-detector';
 
 const App = () => {
   const [pitch, setPitch] = useState('');
-  const [songNotes, setSongNotes] = useState('ABCDEFG');
+  const [songNote, setSongNote] = useState('ABCDEF');
+
+  useEffect(() => {
+    var firstLetter = songNote.substring(0, 1);
+    if (pitch == firstLetter) {
+      var remainingNotes = songNote.substring(1);
+      setSongNote(remainingNotes);
+    }
+  }, [pitch]); // <- add the count variable here
 
   const subscription = PitchDetector;
 
@@ -14,13 +22,6 @@ const App = () => {
 
     PitchDetector.addListener(({tone}: any) => {
       setPitch(tone);
-      var firstLetter = songNotes.substring(0, 1);
-      console.log('THIS IS FIRST LETTER', firstLetter);
-      if (tone == firstLetter) {
-        var remainingNotes = songNotes.substring(1);
-        console.log('Remaining Notes', remainingNotes);
-        setSongNotes(remainingNotes);
-      }
     });
   };
 
@@ -45,7 +46,7 @@ const App = () => {
   const SongNotes = () => {
     return (
       <View>
-        <Text>{songNotes}</Text>
+        <Text>{songNote}</Text>
       </View>
     );
   };
