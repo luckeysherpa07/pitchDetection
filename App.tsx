@@ -5,6 +5,7 @@ import {PitchDetector} from 'react-native-pitch-detector';
 const App = () => {
   const [pitch, setPitch] = useState('');
   const [songNote, setSongNote] = useState('ABCDEF');
+  const subscription = PitchDetector;
 
   useEffect(() => {
     var firstLetter = songNote.substring(0, 1);
@@ -12,22 +13,7 @@ const App = () => {
       var remainingNotes = songNote.substring(1);
       setSongNote(remainingNotes);
     }
-  }, [pitch]); 
-
-  const subscription = PitchDetector;
-
-  const onPressStartButton = async () => {
-    // To start recording
-    await subscription.start();
-
-    PitchDetector.addListener(({tone}: any) => {
-      setPitch(tone);
-    });
-  };
-
-  const onPressStopButton = async () => {
-    subscription.stop();
-  };
+  }, [pitch]);
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const Note = ({note}: any) => {
@@ -56,6 +42,19 @@ const App = () => {
     }
 
     return <View style={styles.songNoteContainer}>{views}</View>;
+  };
+
+  const onPressStartButton = async () => {
+    // To start recording
+    await subscription.start();
+
+    PitchDetector.addListener(({tone}: any) => {
+      setPitch(tone);
+    });
+  };
+
+  const onPressStopButton = async () => {
+    subscription.stop();
   };
 
   return (
