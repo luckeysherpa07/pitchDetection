@@ -60,14 +60,18 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Note note="A" />
-      <Note note="B" />
-      <Note note="C" />
-      <Note note="D" />
-      <Note note="E" />
-      <Note note="F" />
-      <Note note="G" />
-      <SongNotes />
+      <View style={{flexDirection: 'row'}}>
+        <View>
+          <Note note="A" />
+          <Note note="B" />
+          <Note note="C" />
+          <Note note="D" />
+          <Note note="E" />
+          <Note note="F" />
+          <Note note="G" />
+        </View>
+        <SongNotes />
+      </View>
       <Text style={styles.pitchText}>Pitch:</Text>
       <Text style={styles.pitchText}>{pitch}</Text>
       <Button onPress={() => onPressStartButton()} title="Start" />
