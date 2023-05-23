@@ -12,7 +12,7 @@ const App = () => {
       var remainingNotes = songNote.substring(1);
       setSongNote(remainingNotes);
     }
-  }, [pitch]); // <- add the count variable here
+  }, [pitch]); 
 
   const subscription = PitchDetector;
 
@@ -44,11 +44,18 @@ const App = () => {
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const SongNotes = () => {
-    return (
-      <View>
-        <Text>{songNote}</Text>
-      </View>
-    );
+    const views = [];
+
+    for (let i = 0; i < songNote.length; i++) {
+      const char = songNote.charAt(i);
+      views.push(
+        <View key={i} style={styles.songNoteItem}>
+          <Text>{char}</Text>
+        </View>,
+      );
+    }
+
+    return <View style={styles.songNoteContainer}>{views}</View>;
   };
 
   return (
@@ -83,6 +90,15 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10,
   },
+  songNoteItem: {
+    backgroundColor: '#D9544D',
+    padding: 10,
+    margin: 10,
+  },
+  songNoteContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  }
 });
 
 export default App;
