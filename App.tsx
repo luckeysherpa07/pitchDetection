@@ -6,6 +6,29 @@ const App = () => {
   const [pitch, setPitch] = useState('');
   const [songNote, setSongNote] = useState('ABCDEF');
   const subscription = PitchDetector;
+  var allNotes = [
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'A',
+    'B',
+    'c',
+    'd',
+    'e',
+    'f',
+    'g',
+    'a',
+    'b',
+    "c'",
+    "d'",
+    "e'",
+    "f'",
+    "g'",
+    "a'",
+    "b'",
+  ];
 
   useEffect(() => {
     var firstLetter = songNote.substring(0, 1);
@@ -23,7 +46,7 @@ const App = () => {
           styles.noteContainer,
           { backgroundColor: pitch == note ? 'red' : '#ADD8E6' },
         ]}>
-        <Text>{note}</Text>
+        <Text style={{ color: 'black' }}>{note}</Text>
       </View>
     );
   };
@@ -74,13 +97,12 @@ const App = () => {
     <View style={styles.container}>
       <View style={{ flexDirection: 'row' }}>
         <View>
-          <Note note="A" />
-          <Note note="B" />
-          <Note note="C" />
-          <Note note="D" />
-          <Note note="E" />
-          <Note note="F" />
-          <Note note="G" />
+          {allNotes
+            .slice(0)
+            .reverse()
+            .map((note, index) => (
+            <Note note={note} key={index} />
+          ))}
         </View>
         <SongNotes />
       </View>
@@ -103,8 +125,9 @@ const styles = StyleSheet.create({
   },
   noteContainer: {
     backgroundColor: '#ADD8E6',
-    padding: 10,
-    margin: 10,
+    padding: 2,
+    margin: 2,
+    textDecorationColor: 'black',
   },
   songNoteItem: {
     backgroundColor: '#D9544D',
