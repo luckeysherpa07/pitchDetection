@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
-import {PitchDetector} from 'react-native-pitch-detector';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
+import { PitchDetector } from 'react-native-pitch-detector';
 
 const App = () => {
   const [pitch, setPitch] = useState('');
@@ -16,7 +16,7 @@ const App = () => {
   }, [pitch]);
 
   // eslint-disable-next-line react/no-unstable-nested-components
-  const Note = ({note}: any) => {
+  const Note = ({ note }: any) => {
     return (
       <View
         style={[
@@ -48,18 +48,31 @@ const App = () => {
     // To start recording
     await subscription.start();
 
-    PitchDetector.addListener(({tone}: any) => {
-      setPitch(tone);
+    PitchDetector.addListener(({ tone, frequency }: any) => {
+      var note;
+
+      if (frequency >= 130 && frequency <= 262) {
+        note = tone;
+      } else if (frequency > 262 && frequency <= 525) {
+        note = tone.toLowerCase();
+      } else if (frequency > 525 && frequency <= 1000) {
+        note = tone.toLowerCase() + "'";
+      } else {
+        note = '-';
+      }
+
+      console.log('CHANGED NOTE', frequency, note); // Output: 'E' (for frequency = 350)
+      setPitch(note);
     });
   };
 
   const onPressStopButton = async () => {
-    subscription.stop();
+    subscription.stop(); react - native - document - picker
   };
 
   return (
     <View style={styles.container}>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <View>
           <Note note="A" />
           <Note note="B" />
