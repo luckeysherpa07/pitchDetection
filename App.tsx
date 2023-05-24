@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { PitchDetector } from 'react-native-pitch-detector';
 
 const App = () => {
   const [pitch, setPitch] = useState('');
-  const [songNote, setSongNote] = useState('ABCDEF');
+  const [songNote, setSongNote] = useState('');
   const subscription = PitchDetector;
   var allNotes = [
     'C',
@@ -30,6 +30,15 @@ const App = () => {
     "b'",
   ];
 
+  var abcNotation = `
+  cdef|g2fe|dcBA|G2c2|
+  cdef|g2fe|dcBA|G2c2|`;
+
+  var extractedABCNotation = abcNotation
+    .replace(/\||\n/g, '')
+    .replace(/(.)2/g, (match, char) => char + char)
+    .replace(/\s/g, '');
+
   useEffect(() => {
     var firstLetter = songNote.substring(0, 1);
     if (pitch == firstLetter) {
@@ -37,6 +46,10 @@ const App = () => {
       setSongNote(remainingNotes);
     }
   }, [pitch]);
+
+  useEffect(() => {
+    setSongNote(extractedABCNotation);
+  },[]);
 
   // eslint-disable-next-line react/no-unstable-nested-components
   const Note = ({ note }: any) => {
@@ -64,7 +77,11 @@ const App = () => {
       );
     }
 
-    return <View style={styles.songNoteContainer}>{views}</View>;
+    return (
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={styles.songNoteContainer}>{views}</View>
+      </ScrollView>
+    );
   };
 
   const onPressStartButton = async () => {
@@ -90,7 +107,7 @@ const App = () => {
   };
 
   const onPressStopButton = async () => {
-    subscription.stop(); react - native - document - picker
+    subscription.stop();
   };
 
   return (
@@ -101,8 +118,8 @@ const App = () => {
             .slice(0)
             .reverse()
             .map((note, index) => (
-            <Note note={note} key={index} />
-          ))}
+              <Note note={note} key={index} />
+            ))}
         </View>
         <SongNotes />
       </View>
